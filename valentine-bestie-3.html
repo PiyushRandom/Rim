@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day Bestie 💖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating hearts background */
+        .heart-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float 15s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        .title {
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Envelope Container */
+        .envelope-wrapper {
+            perspective: 1000px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            position: relative;
+            margin: 0 auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope.opened {
+            cursor: default;
+        }
+
+        .envelope.opened:hover {
+            transform: scale(1);
+        }
+
+        /* Envelope parts */
+        .envelope-back {
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 100%);
+            border-radius: 10px;
+            position: absolute;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .envelope-front {
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid #ee5a6f;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 3;
+            transform-origin: top center;
+            transition: transform 0.8s ease;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .envelope.opened .envelope-front {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-flap {
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #ff6b9d;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 4;
+            transform-origin: top center;
+            transition: transform 0.8s ease;
+        }
+
+        .envelope.opened .envelope-flap {
+            transform: rotateX(-180deg);
+        }
+
+        /* Letter inside envelope */
+        .letter {
+            width: 280px;
+            background: white;
+            padding: 30px 25px;
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            z-index: 2;
+            border-radius: 5px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: transform 0.8s ease, opacity 0.8s ease;
+            transform: translateY(0);
+            max-height: 160px;
+            overflow: hidden;
+        }
+
+        .letter::before {
+            content: '💖';
+            font-size: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .envelope.opened .letter {
+            transform: translateY(-250px);
+            opacity: 0;
+        }
+
+        /* Open button */
+        .open-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .open-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 7px 25px rgba(0,0,0,0.4);
+        }
+
+        .open-btn.hidden {
+            display: none;
+        }
+
+        /* Message card */
+        .message-card {
+            background: white;
+            max-width: 600px;
+            margin: 40px auto 0;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s ease;
+            pointer-events: none;
+        }
+
+        .message-card.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: all;
+        }
+
+        .message-card h2 {
+            color: #ff6b9d;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .message-card p {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .signature {
+            text-align: right;
+            font-style: italic;
+            color: #ff6b9d;
+            margin-top: 30px;
+            font-size: 1.2em;
+        }
+
+        .close-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.8em;
+            }
+
+            .envelope {
+                width: 250px;
+                height: 167px;
+            }
+
+            .envelope-back {
+                width: 250px;
+                height: 167px;
+            }
+
+            .envelope-front {
+                border-left: 125px solid transparent;
+                border-right: 125px solid transparent;
+                border-bottom: 83.5px solid #ee5a6f;
+            }
+
+            .envelope-flap {
+                border-left: 125px solid transparent;
+                border-right: 125px solid transparent;
+                border-top: 83.5px solid #ff6b9d;
+            }
+
+            .letter {
+                width: 230px;
+                max-height: 127px;
+            }
+
+            .message-card {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+
+            .message-card h2 {
+                font-size: 1.5em;
+            }
+
+            .message-card p {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-bg" id="heartBg"></div>
+
+    <div class="container">
+        <h1 class="title">For My Special Bestie 💖</h1>
+        
+        <div class="envelope-wrapper">
+            <div class="envelope" id="envelope">
+                <div class="envelope-back"></div>
+                <div class="letter"></div>
+                <div class="envelope-front"></div>
+                <div class="envelope-flap"></div>
+            </div>
+            <button class="open-btn" id="openBtn">Open Envelope 💌</button>
+        </div>
+
+        <div class="message-card" id="messageCard">
+            <h2>Happy Valentine's Day meri pyari bestie 💖</h2>
+            
+            <p>Valentine's sirf bf-gf ke liye thodi hota hai… yeh un sab ke liye hota hai jo dil se special hote hain, aur tum mere liye sabse zyada special ho 🤗</p>
+            
+            <p>Tum sirf meri best friend nahi… tum meri safe place ho, meri daily smile ka reason ho, aur meri life ki sabse special person ho. Thank you hamesha mere saath khade rehne ke liye, bina bole mujhe samajhne ke liye, aur meri boring days ko bhi fun bana dene ke liye.</p>
+            
+            <p>Sach bolu… tumhari wajah se hi main us heartbreak se bahar aa paya. Kabhi dost bani, kabhi behen… aur jab maa wale gyaan ki zaroorat padi, tab bhi tum hi thi 🤣</p>
+            
+            <p>Meri life mein aane ke liye thank you… tum meri forever wali friend rahogi. Chahe kabhi tum mujhse baat karna band bhi kar do, par main tumhe kabhi nahi bhoolunga 🤗💜</p>
+            
+            <p>Age mein mujhse badi ho to kya hua… ho to meri choti behen hi, butki 😌<br>
+            Ok take care choti behen ❤️</p>
+            
+            <div class="signature">Always together, no matter what ✨</div>
+            
+            <center><button class="close-btn" id="closeBtn">Close 💕</button></center>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        const heartBg = document.getElementById('heartBg');
+        const hearts = ['💖', '💕', '💗', '💓', '💝', '🌸', '✨'];
+        
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            heartBg.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 15000);
+        }
+
+        setInterval(createHeart, 800);
+
+        // Envelope opening logic
+        const envelope = document.getElementById('envelope');
+        const openBtn = document.getElementById('openBtn');
+        const messageCard = document.getElementById('messageCard');
+        const closeBtn = document.getElementById('closeBtn');
+
+        openBtn.addEventListener('click', () => {
+            envelope.classList.add('opened');
+            openBtn.classList.add('hidden');
+            
+            setTimeout(() => {
+                messageCard.classList.add('show');
+            }, 800);
+        });
+
+        closeBtn.addEventListener('click', () => {
+            messageCard.classList.remove('show');
+            
+            setTimeout(() => {
+                envelope.classList.remove('opened');
+                openBtn.classList.remove('hidden');
+            }, 500);
+        });
+
+        // Optional: Click envelope to open
+        envelope.addEventListener('click', () => {
+            if (!envelope.classList.contains('opened')) {
+                openBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
